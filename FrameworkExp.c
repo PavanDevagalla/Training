@@ -1,4 +1,4 @@
-
+//Program to do CRUD operations for any domain.
 
 #include<stdio.h>
 #include<stdlib.h>

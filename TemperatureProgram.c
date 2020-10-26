@@ -18,7 +18,7 @@ int main()
 void loadWeatherReport(char* location, char* fileName)
 {
 	char command[500];
-	sprintf(command, "curl \"http://api.openweathermap.org/data/2.5/weather?q=%s&appid=f9ba15284b25d77cf2aae3a2733bb72a&units=metric\" > %s", location, fileName);
+	sprintf(command, "curl \"http://api.openweathermap.org/data/2.5/weather?q=%s&appid=f9ba15284b25d77cf2aae3a2733bb72a&units=metric\" > %s -s", location, fileName);
 	system(command);
 }
 
@@ -54,5 +54,5 @@ void displayTemperature()
 	scanf("%s", cityName);
 	loadWeatherReport(cityName, FILE_NAME_OF_WEATHER_REPORT);
 	char* temperature = getTemperatureFromWeatherReport(FILE_NAME_OF_WEATHER_REPORT);
-	printf("The temperature of %s is %s.", cityName, temperature);
+	printf("The temperature in %s is %s.", cityName, temperature);
 }

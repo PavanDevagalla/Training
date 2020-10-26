@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<string.h>
 #define FILE_NAME_OF_WEATHER_REPORT "WeatherReport.dat"
+#define DELIMITERS "{,\":"
 
 void displayTemperature();
 void loadWeatherReport(char* location, char* fileName);
@@ -25,10 +26,15 @@ void loadWeatherReport(char* location, char* fileName)
 char* getTemperatureFromWeatherReport(char* fileName)
 {
 	FILE* fpWeatherReport = fopen(fileName, "r");
+	if(fpWeatherReport == NULL)
+	{
+		printf("File not found or unable to open the file.");
+		exit(0);
+	}
 	char* temperatureInWeatherReport;
 	char weatherReport[1000];
 	fread(weatherReport, sizeof(weatherReport), 1, fpWeatherReport);
-	char* ptrParsedString = strtok(weatherReport, "{,\":");
+	char* ptrParsedString = strtok(weatherReport, DELIMITERS);
 	while(ptrParsedString != NULL)
 	{
 		char isTemperatureFound = 'n';
@@ -36,7 +42,7 @@ char* getTemperatureFromWeatherReport(char* fileName)
 		{
 			isTemperatureFound = 'y';
 		}
-		ptrParsedString = strtok(NULL, "{,\":");
+		ptrParsedString = strtok(NULL, DELIMITERS);
 		if(isTemperatureFound == 'y')
 		{
 			temperatureInWeatherReport = ptrParsedString;

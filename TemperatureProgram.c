@@ -6,14 +6,14 @@
 #define FILE_NAME_OF_WEATHER_REPORT "WeatherReport.dat"
 #define DELIMITERS "{,\":"
 
-void displayTemperature(char*);
+void displayTemperature();
 void loadWeatherReport(char* location, char* fileName);
 char* getTemperatureFromWeatherReport(char* fileName);
 
+char cityName[30];
 
 int main(int argc, char* argv[])
 {
-	char cityName[30];
 	if(argv[1] == NULL)
 	{
 		printf("Enter city name to find temperature: ");
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 	{
 		strcpy(cityName, argv[1]);
 	}
-	displayTemperature(cityName);
+	displayTemperature();
 	return 0;
 }
 
@@ -64,10 +64,10 @@ char* getTemperatureFromWeatherReport(char* fileName)
 	return temperatureInWeatherReport;
 }
 
-void displayTemperature(char* city)
+void displayTemperature()
 {
 	char degreeSymbol = 248;
-	loadWeatherReport(city, FILE_NAME_OF_WEATHER_REPORT);
+	loadWeatherReport(cityName, FILE_NAME_OF_WEATHER_REPORT);
 	char* temperature = getTemperatureFromWeatherReport(FILE_NAME_OF_WEATHER_REPORT);
-	printf("The temperature in %s is %s%cC.", city, temperature, degreeSymbol);
+	printf("The temperature in %s is %s%cC.", cityName, temperature, degreeSymbol);
 }

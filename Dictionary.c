@@ -7,15 +7,24 @@
 #define DELIMITERS "[{,\""
 
 void loadCurlResponse(char*, char*);
-char* getDesiredFieldValue(char*, char*);
+char* getFieldValue(char*, char*);
 void displayDefinition();
 void playPronounciationForGivenWord();
 
-char command[1000];
+char command[500];
 char word[20];
 
-int main()
+int main(int argc, char* argv[])
 {
+	if(argv[1] == NULL)
+	{
+		printf("Enter a word to get definition: ");
+		scanf("%s", word);
+	}
+	else
+	{
+		strcpy(word, argv[1]);
+	}
 	displayDefinition();
 	playPronounciationForGivenWord();
 	return 0;
@@ -27,7 +36,7 @@ void loadCurlResponse(char* word, char* fileName)
 	system(command);
 }
 
-char* getDesiredFieldValue(char* fileName, char* field) //Works for getting audio link and defninition for given word.
+char* getFieldValue(char* fileName, char* field) //Works for getting audio link and defninition for given word.
 {
 	FILE* fpDictionaryInfoForAWord = fopen(fileName, "r");
 	if(fpDictionaryInfoForAWord == NULL)
@@ -64,18 +73,16 @@ char* getDesiredFieldValue(char* fileName, char* field) //Works for getting audi
 
 void displayDefinition()
 {
-	printf("Enter a word to get definition: ");
-	scanf("%s", word);
 	char* definitionForGivenWord;
 	loadCurlResponse(word, DATA_FILE_NAME);
-	definitionForGivenWord = getDesiredFieldValue(DATA_FILE_NAME, "definition");
+	definitionForGivenWord = getFieldValue(DATA_FILE_NAME, "definition");
 	printf("Definition for given word: \n");
 	printf("%s\n", definitionForGivenWord);
 }
 
 void playPronounciationForGivenWord()
 {
-	char* audioLink = getDesiredFieldValue(DATA_FILE_NAME, "audio");
+	char* audioLink = getFieldValue(DATA_FILE_NAME, "audio");
 	sprintf(command, "vlc -I null --play-and-exit %s", audioLink);
 	system(command);
 }

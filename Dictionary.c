@@ -16,10 +16,12 @@ char word[20];
 
 int main(int argc, char* argv[])
 {
+	fflush(stdin);
 	if(argv[1] == NULL)
 	{
 		printf("Enter a word to get definition: ");
 		scanf("%s", word);
+		fflush(stdin);
 	}
 	else
 	{
@@ -76,6 +78,7 @@ void displayDefinition()
 	char* definitionForGivenWord;
 	loadCurlResponse(word, DATA_FILE_NAME);
 	definitionForGivenWord = getFieldValue(DATA_FILE_NAME, "definition");
+	fflush(stdin);
 	printf("Definition for given word: \n");
 	printf("%s\n", definitionForGivenWord);
 }

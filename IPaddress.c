@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 {
 	if(argv[1] == NULL)
 	{
-		printf("Enter your public IPv4 address to city: ");
+		printf("Enter your public IPv4 address to get city name: ");
 		scanf("%s", ipAddress);
 	}
 	else
@@ -55,7 +55,14 @@ void printCityName(char* fileName)
 		ptrParsedString = strtok(NULL, DELIMITERS);
 		if(isCityNameFound == 'y')
 		{
-			printf("According to given IPv4 address your city is %s.", ptrParsedString);
+			if((strcmp(ptrParsedString, "null")) != 0)
+			{
+				printf("According to given IPv4 address your city name is %s.", ptrParsedString);
+			}
+			else
+			{
+				printf("It is a private IP address.");
+			}
 			break;
 		}
 	}

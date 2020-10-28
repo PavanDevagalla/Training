@@ -42,7 +42,7 @@ void printCityName(char* fileName)
 		printf("File not found or unable to open the file.");
 		exit(0);
 	}
-	char ipAddressReport[1000];
+	char ipAddressReport[1000]:
 	fread(ipAddressReport, sizeof(ipAddressReport), 1, fpIpAddressReport);
 	char* ptrParsedString = strtok(ipAddressReport, DELIMITERS);
 	while(ptrParsedString != NULL)

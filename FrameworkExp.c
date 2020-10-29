@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
+#include "OTPsenderToMobileNumber.c"
 
 #define MENU_CONFIG_FILE_NAME "Menu.cfg"
 #define FIELD_CONFIG_FILE_NAME "Fields.cfg"
@@ -11,6 +13,9 @@
 #define LENGTH_OF_FIELDNAME 25
 #define LENGTH_OF_EXISTING_DATA 20
 #define LENGTH_OF_FIELD_VALUE 20
+
+void sendOTPtoMobileNumber(char*);
+void verfiyOTP();
 
 void showMenu();
 int addRecord();
@@ -36,9 +41,22 @@ char userGivenIdToFindRecord[LENGTH_OF_FIELD_VALUE];
 char recordStatus;
 char** fieldNames;
 int* updatableFieldPositions;
+char mobileNumber[11];
 
-int main()
+int main(int argc, char const *argv[])
 {
+	char command[500];
+	if(argv[1] == NULL)
+	{
+		printf("Enter you mobile number to get OTP: ");
+		scanf("%s", mobileNumber);
+	}
+	else
+	{
+		strcpy(mobileNumber, argv[1]);
+	}
+	sendOTPtoMobileNumber(mobileNumber);
+	verfiyOTP();
 	showMenu();
 	return 0;
 }

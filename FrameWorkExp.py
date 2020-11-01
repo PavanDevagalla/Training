@@ -77,7 +77,7 @@ def updateRecord():
 			print(fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + " updated successfully.")
 			break
 	if updateRecordStatus == 0:
-		print(fieldNames[0] + "Not found.")
+		print(fieldNames[0] + " Not found.")
 	else:
 		writeRecord()
 
@@ -92,10 +92,10 @@ def deleteRecord():
 			fieldValuesOfRecord[0] = 'd'
 			break
 	if deleteRecordStatus == 0:
-		print(fieldNames[0] + "Not found.")
+		print(fieldNames[0] + " Not found.")
 	else:
 		writeRecord()
-		print("Delted successfully")
+		print("Deleted successfully")
 
 
 def writeRecord():

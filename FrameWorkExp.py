@@ -57,33 +57,35 @@ def readRecords():
 	print("Number Of record(s): " + str(countOfRecords))
 
 def updateRecord():
-	print("Enter " + fieldNames[0].rstrip() + ":", end = "")
+	printPromptToEnterRecordId()
 	idToUpdateRecord = input()
 	with open(updatableFieldsFileName, 'r') as fUpdatableFieldsObj:
 		listOfUpdatableFields = fUpdatableFieldsObj.readlines()
 	fUpdatableFieldsObj.close()
 	updateRecordStatus = 0
-	counter = 1
-	for updatableField in listOfUpdatableFields:
-		print(str(counter) + "." + " Update " + fieldNames[eval(updatableField) - 1].rstrip())
-		counter += 1
-	updateChoice = input("Enter your update choice: ")
-	updateChoice = int(updateChoice)
 	for fieldValuesOfRecord in records:
 		if fieldValuesOfRecord[0] == 'a' and fieldValuesOfRecord[1] == str(idToUpdateRecord):
 			updateRecordStatus = 1
+			counter = 1
+			for updatableField in listOfUpdatableFields:
+				print(str(counter) + "." + " Update " + fieldNames[eval(updatableField) - 1].rstrip())
+				counter += 1
+			try:
+				updateChoice = input("Enter your update choice: ")
+				updateChoice = int(updateChoice)
+			except Exception:
+				print("Invalid Update choice")
 			print("Enter new " + fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + ": ", end = "")
 			fieldValuesOfRecord[eval(listOfUpdatableFields[updateChoice - 1])] = input()
 			print(fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + " updated successfully.")
 			break
 	if updateRecordStatus == 0:
-		print(fieldNames[0] + " Not found.")
+		printRecordNotFound()
 	else:
 		writeRecord()
 
-
 def deleteRecord():
-	print("Enter " + fieldNames[0].rstrip() + ":", end = "")
+	printPromptToEnterRecordId()
 	idToDeleteRecord = input()
 	deleteRecordStatus = 0
 	for fieldValuesOfRecord in records:
@@ -92,12 +94,29 @@ def deleteRecord():
 			fieldValuesOfRecord[0] = 'd'
 			break
 	if deleteRecordStatus == 0:
-		print(fieldNames[0] + " Not found.")
+		printRecordNotFound()
 	else:
 		writeRecord()
 		print("Deleted successfully")
 
+def searchRecord():
+	printPromptToEnterRecordId()
+	idToSearchRecord = input()
+	searchRecordStatus = 0
+	for fieldValuesOfRecord in records:
+		if fieldValuesOfRecord[0] == 'a' and fieldValuesOfRecord[1] == str(idToSearchRecord):
+			searchRecordStatus = 1
+			index = 1
+			for fieldName in fieldNames:
+				print(fieldName.rstrip() + ": ", end = "")
+				print(fieldValuesOfRecord[index])
+				index += 1
+			break
+	if searchRecordStatus == 0:
+		printRecordNotFound()
 
+def printPromptToEnterRecordId():
+	print("Enter " + fieldNames[0].rstrip() + ":", end = "")
 def writeRecord():
 	try:
 		with open(dataFileName, 'w') as fDataObj:
@@ -106,11 +125,19 @@ def writeRecord():
 	except:
 		print(fileNotFoundMessage)
 
-functionsList = [createRecord, readRecords, updateRecord, deleteRecord, exit]
+def printRecordNotFound():
+	print(fieldNames[0].rstrip() + " Not found.")
+
+functionsList = [createRecord, readRecords, searchRecord, updateRecord, deleteRecord, exit]
 
 while True:
 	print(menu)
-	userChoice = input("Enter you choice: ")
-	userChoice = int(userChoice)
-	functionsList[userChoice - 1]()
+	try:
+		userChoice = input("Enter you choice: ")
+		userChoice = int(userChoice)
+		if userChoice == 6:
+			print("Entered exit as choice")
+		functionsList[userChoice - 1]()
+	except Exception:
+		print("Invalid Choice")
 	print("--------------")

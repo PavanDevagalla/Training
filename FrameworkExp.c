@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include "OTPsenderToMobileNumber.c"
+#include "OTP.c"
 
 #define MENU_CONFIG_FILE_NAME "Menu.cfg"
 #define FIELD_CONFIG_FILE_NAME "Fields.cfg"
@@ -13,9 +13,6 @@
 #define LENGTH_OF_FIELDNAME 25
 #define LENGTH_OF_EXISTING_DATA 20
 #define LENGTH_OF_FIELD_VALUE 20
-
-void sendOTPtoMobileNumber(char*);
-void verfiyOTP();
 
 void showMenu();
 int addRecord();
@@ -41,22 +38,9 @@ char userGivenIdToFindRecord[LENGTH_OF_FIELD_VALUE];
 char recordStatus;
 char** fieldNames;
 int* updatableFieldPositions;
-char mobileNumber[11];
 
 int main(int argc, char const *argv[])
 {
-	char command[500];
-	if(argv[1] == NULL)
-	{
-		printf("Enter you mobile number to get OTP: ");
-		scanf("%s", mobileNumber);
-	}
-	else
-	{
-		strcpy(mobileNumber, argv[1]);
-	}
-	sendOTPtoMobileNumber(mobileNumber);
-	verfiyOTP();
 	showMenu();
 	return 0;
 }
@@ -69,7 +53,7 @@ void showMenu()
 	fread(menu, sizeof(menu), 1, fpMenu);
 	fclose(fpMenu);
 	int userChoice, functionStatus;
-	menu[strlen(menu) - 1] = '\0';
+	menu[strlen(menu) - 2] = '\0';
 	while(1)
 	{
 		printf("%s\n", menu);
@@ -98,7 +82,7 @@ void showMenu()
 			case 5:
 				printf("--------------------------\n");
 				printf("Entered exit as choice.");
-				exit(0);
+				exit(3);
 			default:
 				printf("Invalid choice or entered inappropriate data.");
 		}
@@ -113,7 +97,7 @@ FILE* getFilePointer(char* fileName, char* mode)
 	if(fptr == NULL)
 	{
 		printf("File not found or error in opening the file.\n");
-		exit(1);
+		exit(2);
 	}
 	return fptr;
 }

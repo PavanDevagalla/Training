@@ -22,16 +22,14 @@ except FileNotFoundError:
 
 try:
 	with open(dataFileName, 'r') as fDataObj:
-		listOfRecords = fDataObj.readlines();
+		listOfRecords = fDataObj.read();
 	fDataObj.close()
-	for listOfRecord in listOfRecords:
-		records = eval(listOfRecord)
+	records = eval(listOfRecords)
 except FileNotFoundError:
 	with open(dataFileName, 'w') as fDataObj:
 		records = []
 		fDataObj.write(str(records));
 	fDataObj.close()
-
 
 def createRecord():
 	fieldValues = []
@@ -42,19 +40,15 @@ def createRecord():
 		fieldValue = input()
 		fieldValues.append(fieldValue)
 	records.append(fieldValues)
-	writeRecord()
+	writeAllRecords()
 	print("--------------")
 	print("The details you entered are saved successfully.")
 
 def readRecords():
 	countOfRecords = 0
-	for fieldValuesOfRecord in records:
-		if fieldValuesOfRecord[0] == 'a':
-			index = 1
-			for fieldName in fieldNames:
-				print(fieldName.rstrip() + ": ", end = "")
-				print(fieldValuesOfRecord[index])
-				index += 1
+	for record in records:
+		if record[0] == 'a':
+			printRecord(record)
 			print("--------------")
 			countOfRecords += 1
 	print("Number Of record(s): " + str(countOfRecords))
@@ -85,7 +79,7 @@ def updateRecord():
 	if updateRecordStatus == 0:
 		printRecordNotFound()
 	else:
-		writeRecord()
+		writeAllRecords()
 
 def deleteRecord():
 	printPromptToEnterRecordId()
@@ -99,28 +93,32 @@ def deleteRecord():
 	if deleteRecordStatus == 0:
 		printRecordNotFound()
 	else:
-		writeRecord()
+		writeAllRecords()
 		print("Deleted successfully")
 
 def searchRecord():
 	printPromptToEnterRecordId()
 	idToSearchRecord = input()
 	searchRecordStatus = 0
-	for fieldValuesOfRecord in records:
-		if fieldValuesOfRecord[0] == 'a' and fieldValuesOfRecord[1] == str(idToSearchRecord):
+	for record in records:
+		if record[0] == 'a' and record[1] == str(idToSearchRecord):
 			searchRecordStatus = 1
-			index = 1
-			for fieldName in fieldNames:
-				print(fieldName.rstrip() + ": ", end = "")
-				print(fieldValuesOfRecord[index])
-				index += 1
+			printRecord(record)
 			break
 	if searchRecordStatus == 0:
 		printRecordNotFound()
 
+def printRecord(fieldValues):
+	index = 1
+	for fieldName in fieldNames:
+		print(fieldName.rstrip() + ": ", end = "")
+		print(fieldValues[index])
+		index += 1
+
 def printPromptToEnterRecordId():
 	print("Enter " + fieldNames[0].rstrip() + ":", end = "")
-def writeRecord():
+
+def writeAllRecords():
 	try:
 		with open(dataFileName, 'w') as fDataObj:
 			fDataObj.write(str(records))

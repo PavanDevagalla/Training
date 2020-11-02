@@ -60,8 +60,8 @@ def updateRecord():
 		listOfUpdatableFields = fUpdatableFieldsObj.readlines()
 	fUpdatableFieldsObj.close()
 	updateRecordStatus = 0
-	for fieldValuesOfRecord in records:
-		if fieldValuesOfRecord[0] == 'a' and fieldValuesOfRecord[1] == str(idToUpdateRecord):
+	for record in records:
+		if record[0] == 'a' and record[1] == str(idToUpdateRecord):
 			updateRecordStatus = 1
 			counter = 1
 			for updatableField in listOfUpdatableFields:
@@ -73,7 +73,7 @@ def updateRecord():
 			except Exception:
 				print("Invalid Update choice")
 			print("Enter new " + fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + ": ", end = "")
-			fieldValuesOfRecord[eval(listOfUpdatableFields[updateChoice - 1])] = input()
+			record[eval(listOfUpdatableFields[updateChoice - 1])] = input()
 			print(fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + " updated successfully.")
 			break
 	if updateRecordStatus == 0:
@@ -85,10 +85,10 @@ def deleteRecord():
 	printPromptToEnterRecordId()
 	idToDeleteRecord = input()
 	deleteRecordStatus = 0
-	for fieldValuesOfRecord in records:
-		if fieldValuesOfRecord[0] == 'a' and fieldValuesOfRecord[1] == str(idToDeleteRecord):
+	for record in records:
+		if record[0] == 'a' and record[1] == str(idToDeleteRecord):
 			deleteRecordStatus = 1
-			fieldValuesOfRecord[0] = 'd'
+			record[0] = 'd'
 			break
 	if deleteRecordStatus == 0:
 		printRecordNotFound()

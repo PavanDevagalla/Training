@@ -4,7 +4,7 @@ menuFileName = "Menu.cfg"
 fieldFileName = "Fields.cfg"
 dataFileName = "Data.dat"
 updatableFieldsFileName = "updatableFields.cfg"
-fileNotFoundMessage = "File Not Found or error in opening the file"
+fileNotFoundMessage = "File not found or error in opening the file"
 
 try:
 	with open(menuFileName) as fMenuObj:
@@ -24,11 +24,14 @@ try:
 	with open(dataFileName, 'r') as fDataObj:
 		listOfRecords = fDataObj.readlines();
 	fDataObj.close()
-except:
-	print(fileNotFoundMessage)
+	for listOfRecord in listOfRecords:
+		records = eval(listOfRecord)
+except FileNotFoundError:
+	with open(dataFileName, 'w') as fDataObj:
+		records = []
+		fDataObj.write(str(records));
+	fDataObj.close()
 
-for listOfRecord in listOfRecords:
-	records = eval(listOfRecord)
 
 def createRecord():
 	fieldValues = []

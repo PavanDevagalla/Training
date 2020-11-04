@@ -7,7 +7,7 @@ contactsFileName = "contacts.dat"
 bodyFileName = "BodyOfMail.txt"
 
 names = []
-emails = []
+emailIds = []
 
 with open(contactsFileName, 'r') as fContactsObj:
 	contacts = fContactsObj.readlines()
@@ -15,7 +15,7 @@ fContactsObj.close()
 
 for contact in contacts:
 	names.append(contact.split(',')[0])
-	emails.append(contact.split(',')[1])
+	emailIds.append(contact.split(',')[1])
 
 with open(bodyFileName, 'r') as fBodyObj:
 	body = fBodyObj.read()
@@ -33,7 +33,7 @@ server.starttls()
 server.login(senderMailId, password)
 
 counter = 0
-for mailId in emails:
+for mailId in emailIds:
 	message = body.substitute(NAME = names[counter]).encode('utf-8')
 	server.sendmail(senderMailId, mailId, message)
 	print("Mail sent successfully.")

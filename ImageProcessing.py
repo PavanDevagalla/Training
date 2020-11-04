@@ -7,9 +7,12 @@ inputPrompt = "Enter a number(1 - 100) to see the change in image: "
 
 image = Image.open('nature.jpg')
 
-with open(menuFileName, 'r') as fMenuObj:
-	menu = fMenuObj.read()
-fMenuObj.close()
+try:
+	with open(menuFileName, 'r') as fMenuObj:
+		menu = fMenuObj.read()
+	fMenuObj.close()
+except FileNotFoundError:
+	print("Menu file not found or error in opening the file.")
 
 def convertColorImageToGrayScale():
 	enhancementOfImage = ImageEnhance.Color(image)

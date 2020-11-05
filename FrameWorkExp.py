@@ -1,10 +1,14 @@
 #Program to do CRUD operations for any domain
 
+import OneTimePassword
+OneTimePassword.grantPermissionThroughOTP()
+
 menuFileName = "Menu.cfg"
 fieldFileName = "Fields.cfg"
 dataFileName = "Data.dat"
 updatableFieldsFileName = "updatableFields.cfg"
 fileNotFoundMessage = "File not found or error in opening the file"
+messageForReturnBackToMenu = "By pressing ESC and ENTER button you will return back to menu."
 
 try:
 	with open(menuFileName) as fMenuObj:
@@ -32,16 +36,18 @@ except FileNotFoundError:
 	fDataObj.close()
 
 def createRecord():
+	print(messageForReturnBackToMenu)
 	fieldValues = []
 	recordStatus = 'a'
 	fieldValues.append(recordStatus)
 	for fieldName in fieldNames:
 		print(fieldName.rstrip() + ": ", end = "")
 		fieldValue = input()
-		fieldValues.append(fieldValue)
+		if fieldValue == '':
+			return
 	records.append(fieldValues)
 	writeAllRecords()
-	print("--------------")
+	print("-" * 20)
 	print("The details you entered are saved successfully.")
 
 def readRecords():
@@ -49,13 +55,16 @@ def readRecords():
 	for record in records:
 		if record[0] == 'a':
 			printRecord(record)
-			print("--------------")
+			print("-" * 20)
 			countOfRecords += 1
 	print("Number Of record(s): " + str(countOfRecords))
 
 def updateRecord():
-	printPromptToEnterRecordId()
+	print(messageForReturnBackToMenu)
+	promptToEnterRecordId()
 	idToUpdateRecord = input()
+	if idToUpdateRecord == '':
+		return
 	with open(updatableFieldsFileName, 'r') as fUpdatableFieldsObj:
 		listOfUpdatableFields = fUpdatableFieldsObj.readlines()
 	fUpdatableFieldsObj.close()
@@ -69,11 +78,16 @@ def updateRecord():
 				counter += 1
 			try:
 				updateChoice = input("Enter your update choice: ")
+				if updateChoice == '':
+					return
 				updateChoice = int(updateChoice)
-			except Exception:
-				print("Invalid Update choice")
+			except ValueError:
+				print("Invalid choice")
+				return
 			print("Enter new " + fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + ": ", end = "")
 			record[eval(listOfUpdatableFields[updateChoice - 1])] = input()
+			if record[eval(listOfUpdatableFields[updateChoice - 1])] == '':
+				return
 			print(fieldNames[eval(listOfUpdatableFields[updateChoice - 1]) - 1].rstrip() + " updated successfully.")
 			break
 	if updateRecordStatus == 0:
@@ -82,8 +96,11 @@ def updateRecord():
 		writeAllRecords()
 
 def deleteRecord():
-	printPromptToEnterRecordId()
+	print(messageForReturnBackToMenu)
+	promptToEnterRecordId()
 	idToDeleteRecord = input()
+	if idToDeleteRecord == '':
+		return
 	deleteRecordStatus = 0
 	for record in records:
 		if record[0] == 'a' and record[1] == str(idToDeleteRecord):
@@ -97,8 +114,11 @@ def deleteRecord():
 		print("Deleted successfully")
 
 def searchRecord():
-	printPromptToEnterRecordId()
+	print(messageForReturnBackToMenu)
+	promptToEnterRecordId()
 	idToSearchRecord = input()
+	if idToSearchRecord == '':
+		return
 	searchRecordStatus = 0
 	for record in records:
 		if record[0] == 'a' and record[1] == str(idToSearchRecord):
@@ -115,8 +135,8 @@ def printRecord(fieldValues):
 		print(fieldValues[index])
 		index += 1
 
-def printPromptToEnterRecordId():
-	print("Enter " + fieldNames[0].rstrip() + ":", end = "")
+def promptToEnterRecordId():
+	print("Enter " + fieldNames[0].rstrip() + ": ", end = "")
 
 def writeAllRecords():
 	try:
@@ -129,16 +149,20 @@ def writeAllRecords():
 def printRecordNotFound():
 	print(fieldNames[0].rstrip() + " Not found.")
 
-functionsList = [createRecord, readRecords, searchRecord, updateRecord, deleteRecord, exit]
+functionList = [createRecord, readRecords, searchRecord, updateRecord, deleteRecord]
 
 while True:
 	print(menu)
 	try:
 		userChoice = input("Enter you choice: ")
 		userChoice = int(userChoice)
-		if userChoice == 6:
-			print("Entered exit as choice")
-		functionsList[userChoice - 1]()
+		if userChoice != 6:
+			functionList[userChoice - 1]()
+		else:
+			print("Do you really want to exit? ")
+			exitChoice = input("Type 'y' to confirm or 'n' to continue: ")
+			if exitChoice == 'y':
+				exit()
 	except Exception:
 		print("Invalid Choice")
-	print("--------------")
+	print("-" * 20)

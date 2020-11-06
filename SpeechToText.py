@@ -1,4 +1,4 @@
-# Program to convert speech to text.
+# Program to convert speech to text and search a video on YouTube.
 
 import speech_recognition as sr
 import webbrowser

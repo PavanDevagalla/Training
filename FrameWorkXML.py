@@ -100,8 +100,8 @@ def searchRecord():
 			printRecord(record)
 			break
 
-def printRecord(record):
-	for fieldValue in record:
+def printRecord(fieldValues):
+	for fieldValue in fieldValues:
 		print(fieldValue.tag + ": " + fieldValue.text)
 	print("-" * 20)
 

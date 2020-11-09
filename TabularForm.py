@@ -19,29 +19,35 @@ def printDataInTabularForm(headings, values):
 	for index in range(countOfColumns):
 		spaces = symbolsCount[index] - len(headings[index])
 		if spaces % 2 == 0:
-			print("|" + " " * int(spaces / 2) + headings[index] + " " * int(spaces / 2), end = "")
 			if index == (countOfColumns - 1):
 				print("|" + " " * int(spaces / 2) + headings[index] + " " * int(spaces / 2) + "|")
+			else:
+				print("|" + " " * int(spaces / 2) + headings[index] + " " * int(spaces / 2), end = "")
 		else:
-			print("|" + " " * int((spaces / 2) + 0.5) + headings[index] + " " * int((spaces / 2) - 0.5), end = "")
 			if index == (countOfColumns - 1):
 				print("|" + " " * int((spaces / 2) + 0.5) + headings[index] + " " * int((spaces / 2) - 0.5) + "|")
+			else:
+				print("|" + " " * int((spaces / 2) + 0.5) + headings[index] + " " * int((spaces / 2) - 0.5), end = "")
 	printBorder(symbolsLength, symbolsCount)
 	for index in range(countOfValuesList):
 		for columnIndex in range(countOfColumns):
 			spaces = symbolsCount[columnIndex] - len(values[index][columnIndex])
 			if spaces % 2 == 0:
-				print("|" + " " * int(spaces / 2) + values[index][columnIndex] + " " * int(spaces / 2), end = "")
 				if columnIndex == (countOfColumns - 1):
 					print("|" + " " * int(spaces / 2) + values[index][columnIndex] + " " * int(spaces / 2) + "|")
+				else:
+					print("|" + " " * int(spaces / 2) + values[index][columnIndex] + " " * int(spaces / 2), end = "")
 			else:
-				print("|" + " " * int((spaces / 2) + 0.5) + values[index][columnIndex] + " " * int((spaces / 2) - 0.5), end = "")
 				if columnIndex == (countOfColumns - 1):
 					print("|" + " " * int((spaces / 2) + 0.5) + values[index][columnIndex] + " " * int((spaces / 2) - 0.5) + "|")
+				else:
+					print("|" + " " * int((spaces / 2) + 0.5) + values[index][columnIndex] + " " * int((spaces / 2) - 0.5), end = "")
 	printBorder(symbolsLength, symbolsCount)
 
 def printBorder(symbolsLength, symbolsCount):
 	for index in range(symbolsLength):
-		print("+" + "-" * symbolsCount[index], end = "")
 		if index == (symbolsLength - 1):
 			print("+" + "-" * symbolsCount[index] + "+")
+		else:
+			print("+" + "-" * symbolsCount[index], end = "")
+

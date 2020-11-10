@@ -24,6 +24,13 @@ except FileNotFoundError:
 	print(fileNotFoundMessage)
 
 try:
+	with open("Key.cfg", 'r') as fObj:
+		key = fObj.read()
+	fObj.close()
+except FileNotFoundError:
+	print(fileNotFoundMessage)
+
+try:
 	with open(dataFileName, 'r') as fDataObj:
 		data = fDataObj.read()
 	fDataObj.close()
@@ -120,13 +127,6 @@ def searchRecord():
 			listOfFieldValueLists.append(getFieldValueList(record))
 			TF.printDataInTabularForm(fieldNames, listOfFieldValueLists)
 			break
-
-try:
-	with open("Key.cfg", 'r') as fObj:
-		key = fObj.read()
-	fObj.close()
-except FileNotFoundError:
-	print(fileNotFoundMessage)
 
 functionList = [createRecord, readAllRecords, searchRecord, updateRecord, deleteRecord]
 

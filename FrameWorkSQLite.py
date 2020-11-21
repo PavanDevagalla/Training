@@ -58,7 +58,7 @@ def updateRecord():
 		updaterecordStatus = connection.execute('UPDATE MyTable SET ' + fieldNames[updatableFields[updateChoice - 1]] + ' = ' + "\"" + newFieldvalue + "\"" + ' WHERE ' + fieldNames[0] + ' = ' + idToUpdateRecord)
 		if updaterecordStatus.rowcount != 0:
 			connection.commit()
-			print(fieldNames[updatableFields[updateChoice - 1]] + " updated successfully.")
+			print(fieldNames[updatableFields[updateChoice - 1]] + " updated successfully")
 	else:
 		print(promptMessages[3])
 

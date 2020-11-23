@@ -3,14 +3,14 @@
 def printDataInTabularForm(headings, values):
 	# This function takes two arguments
 	# headings ---> list with headings. Ex: ['heading1', 'heading2', 'heading3', ...]
-	# values ---> list of values lists. Ex: [['value', 'value', 'value', ... ], ['value', 'value', 'value', ... ], ['value', 'value', 'value', ... ], ...]
+	# values ---> list of values lists. Ex: [['value', 'value', 'value', ... ], ['value', 'value', 'value', ... ], ['value', 'value', 'value', ... ], ...]	
 	countOfColumns = len(headings)
 	countOfValuesList = len(values)
 	symbolsCount = []
 	for headingsIndex in range(countOfColumns):
 		length = len(headings[headingsIndex])
 		for valuesIndex in range(countOfValuesList):
-			tempLenght = len(values[valuesIndex][headingsIndex])
+			tempLenght = len(str(values[valuesIndex][headingsIndex]))
 			if tempLenght > length:
 				length = tempLenght
 		symbolsCount.append(length + 2)
@@ -31,17 +31,17 @@ def printDataInTabularForm(headings, values):
 	printBorder(symbolsLength, symbolsCount)
 	for index in range(countOfValuesList):
 		for columnIndex in range(countOfColumns):
-			spaces = symbolsCount[columnIndex] - len(values[index][columnIndex])
+			spaces = symbolsCount[columnIndex] - len(str(values[index][columnIndex]))
 			if spaces % 2 == 0:
 				if columnIndex == (countOfColumns - 1):
-					print("|" + " " * int(spaces / 2) + values[index][columnIndex] + " " * int(spaces / 2) + "|")
+					print("|" + " " * int(spaces / 2) + str(values[index][columnIndex]) + " " * int(spaces / 2) + "|")
 				else:
-					print("|" + " " * int(spaces / 2) + values[index][columnIndex] + " " * int(spaces / 2), end = "")
+					print("|" + " " * int(spaces / 2) + str(values[index][columnIndex]) + " " * int(spaces / 2), end = "")
 			else:
 				if columnIndex == (countOfColumns - 1):
-					print("|" + " " * int((spaces / 2) + 0.5) + values[index][columnIndex] + " " * int((spaces / 2) - 0.5) + "|")
+					print("|" + " " * int((spaces / 2) + 0.5) + str(values[index][columnIndex]) + " " * int((spaces / 2) - 0.5) + "|")
 				else:
-					print("|" + " " * int((spaces / 2) + 0.5) + values[index][columnIndex] + " " * int((spaces / 2) - 0.5), end = "")
+					print("|" + " " * int((spaces / 2) + 0.5) + str(values[index][columnIndex]) + " " * int((spaces / 2) - 0.5), end = "")
 	printBorder(symbolsLength, symbolsCount)
 
 def printBorder(symbolsLength, symbolsCount):

@@ -1,4 +1,5 @@
-# Python program to run MySQL 
+# Program to use mysql library.
+
 import mysql.connector
 import TabularForm
 import time

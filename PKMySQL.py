@@ -19,6 +19,7 @@ while True:
 	cursor = connection.cursor()
 	if query.lower() == 'quit' or query.lower() == 'exit':
 		connection.close()
+		print("Bye")
 		exit()
 	else:
 		try:

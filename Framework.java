@@ -64,9 +64,9 @@ class Framework
 				System.out.println("---------------------------------");
 			}
 		}
-		catch (SQLException e)
+		catch (SQLException objException)
 		{
-			System.out.println(e.getMessage());
+			System.out.println(objException.getMessage());
 		}
 	}
 
@@ -124,7 +124,7 @@ class Framework
 					System.out.println("Error while updating " + columnName);
 				}
 			}
-			catch (Exception e)
+			catch (Exception objException)
 			{
 				System.out.println("Enter valid update choice");
 			}

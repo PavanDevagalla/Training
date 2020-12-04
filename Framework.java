@@ -215,9 +215,9 @@ class Framework
 	private void printRecord(ResultSet resultSet) throws SQLException
 	{
 		for (int index = 0; index < fieldNames.length; index++)
-			{
-				System.out.println(fieldNames[index] + ": " + resultSet.getString(fieldNames[index]));
-			}
+		{
+			System.out.println(fieldNames[index] + ": " + resultSet.getString(fieldNames[index]));
+		}
 	}
 
 	private String getInput(String inputPrompt)

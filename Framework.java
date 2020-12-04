@@ -51,43 +51,43 @@ class Framework
 	public void printMenu() throws SQLException
 	{
 		while (true)
+		{
+			for (int index = 0; index < menu.length; index++)
 			{
-				for (int index = 0; index < menu.length; index++)
-				{
-					System.out.println((index + 1) + ". " + menu[index]);
-				}
-				System.out.print("Enter your choice: ");
-				String userChoice = scanner.next();
-				scanner.nextLine();
-				switch (userChoice)
-				{
-					case "1": insertRecord();
-							break;
-					case "2": readRecords();
-							break;
-					case "3": searchRecord();
-							break;
-					case "4": updateRecord();
-							break;
-					case "5": deleteRecord();
-							break;
-					case "6": System.out.print("Do you really want to exit? \nEnter 'y' to confirm or 'n' to continue: ");
-							String exitChoice = scanner.next();
-							if (exitChoice.toLowerCase().equals("y"))
-							{
-								System.out.println("Entered exit as choice");
-								scanner.close();
-								connection.close();
-								System.exit(0);
-							}
-							else if(exitChoice.toLowerCase().equals("n"))
-							{
-								continue;
-							}
-					default: System.out.println("Invalid Choice");
-				}
-				System.out.println("---------------------------------");
+				System.out.println((index + 1) + ". " + menu[index]);
 			}
+			System.out.print("Enter your choice: ");
+			String userChoice = scanner.next();
+			scanner.nextLine();
+			switch (userChoice)
+			{
+				case "1": insertRecord();
+						break;
+				case "2": readRecords();
+						break;
+				case "3": searchRecord();
+						break;
+				case "4": updateRecord();
+						break;
+				case "5": deleteRecord();
+						break;
+				case "6": System.out.print("Do you really want to exit? \nEnter 'y' to confirm or 'n' to continue: ");
+						String exitChoice = scanner.next();
+						if (exitChoice.toLowerCase().equals("y"))
+						{
+							System.out.println("Entered exit as choice");
+							scanner.close();
+							connection.close();
+							System.exit(0);
+						}
+						else if(exitChoice.toLowerCase().equals("n"))
+						{
+							continue;
+						}
+				default: System.out.println("Invalid Choice");
+			}
+			System.out.println("---------------------------------");
+		}
 	}
 
 	private void insertRecord() throws SQLException

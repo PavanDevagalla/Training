@@ -8,71 +8,88 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.ResultSetMetaData;
 
+class MainClass
+{
+	public static void main(String[] args)
+	{
+		try
+		{
+			Framework objFramework = new Framework();
+			objFramework.printMenu();
+		}
+		catch (SQLException objException)
+		{
+			System.out.println(objException.getMessage());
+		}
+	}
+}
+
 class Framework
 {
-	static Connection connection;
-	static Statement statement;
+	Connection connection;
+	Statement statement;
 	ResultSet resultSet;
 	Scanner scanner = new Scanner(System.in);
 	String query;
-	static String[] fieldNames;
-	static String[] updatableFieldPositons;
-	static String[] promptMessages;
+	String[] fieldNames;
+	String[] updatableFieldPositons;
+	String[] promptMessages;
+	String[] menu;
 	int rowsAffected;
-	public static void main(String args[]) 
+
+	public Framework() throws SQLException
 	{
-		Framework objFramework = new Framework();
 		String url = "jdbc:mysql://165.22.14.77/dbPavan?user=Pavankumar&password=Pavankumar";
-		try
-		{
-			connection = DriverManager.getConnection(url);
-			statement = objFramework.connection.createStatement();
-			updatableFieldPositons = objFramework.getConfigData("UpdatableFieldPositions");
-			promptMessages = objFramework.getConfigData("PromptMessages");
-			String[] menu = objFramework.getConfigData("Menu");
-			objFramework.storeFieldNames();
-			while (true)
+		connection = DriverManager.getConnection(url);
+		statement = connection.createStatement();
+		updatableFieldPositons = getConfigData("UpdatableFieldPositions");
+		promptMessages = getConfigData("PromptMessages");
+		menu = getConfigData("Menu");
+		storeFieldNames();
+	}
+
+	public void printMenu() throws SQLException
+	{
+		while (true)
 			{
 				for (int index = 0; index < menu.length; index++)
 				{
 					System.out.println((index + 1) + ". " + menu[index]);
 				}
 				System.out.print("Enter your choice: ");
-				String userChoice = objFramework.scanner.next();
-				objFramework.scanner.nextLine();
+				String userChoice = scanner.next();
+				scanner.nextLine();
 				switch (userChoice)
 				{
-					case "1": objFramework.insertRecord();
+					case "1": insertRecord();
 							break;
-					case "2": objFramework.readRecords();
+					case "2": readRecords();
 							break;
-					case "3": objFramework.searchRecord();
+					case "3": searchRecord();
 							break;
-					case "4": objFramework.updateRecord();
+					case "4": updateRecord();
 							break;
-					case "5": objFramework.deleteRecord();
+					case "5": deleteRecord();
 							break;
-					case "6": System.out.println("Do you really want to exit? ");
-							String exitChoice = objFramework.getInput("'y' to confirm or 'n' to continue");
-							exitChoice = exitChoice.toLowerCase();
-							if (exitChoice.charAt(0) == 'y')
+					case "6": System.out.print("Do you really want to exit? \nEnter 'y' to confirm or 'n' to continue: ");
+							String exitChoice = scanner.next();
+							if (exitChoice.toLowerCase().equals("y"))
 							{
 								System.out.println("Entered exit as choice");
-								objFramework.connection.close();
+								connection.close();
 								System.exit(0);
+							}
+							else if(exitChoice.toLowerCase().equals("n"))
+							{
+								continue;
 							}
 					default: System.out.println("Invalid Choice");
 				}
 				System.out.println("---------------------------------");
 			}
-		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
 	}
 
-	public void insertRecord() throws SQLException
+	private void insertRecord() throws SQLException
 	{
 		query = "INSERT INTO MyTable VALUES(";
 		for (int index = 0; index < fieldNames.length; index++)
@@ -91,7 +108,7 @@ class Framework
 		}	
 	}
 
-	public void readRecords() throws SQLException
+	private void readRecords() throws SQLException
 	{
 		query = "Select * from MyTable where Status = 'A'";
 		resultSet = statement.executeQuery(query);
@@ -105,7 +122,7 @@ class Framework
 		System.out.println(promptMessages[1] + ": " + countOfRecords);
 	}
 
-	public void updateRecord() throws SQLException
+	private void updateRecord() throws SQLException
 	{
 		String idToUpdateRecord = getInput(fieldNames[0]);
 		if(checkIdPresentOrNot(idToUpdateRecord))
@@ -145,7 +162,7 @@ class Framework
 		}
 	}
 
-	public void deleteRecord() throws SQLException
+	private void deleteRecord() throws SQLException
 	{
 		String idToDeleteRecord = getInput(fieldNames[0]);
 		if(checkIdPresentOrNot(idToDeleteRecord))
@@ -167,7 +184,7 @@ class Framework
 		}
 	}
 
-	public void searchRecord() throws SQLException
+	private void searchRecord() throws SQLException
 	{
 		String idToSearchRecord = getInput(fieldNames[0]);
 		query = "Select * from MyTable where Status = 'A' and " + fieldNames[0] + " = '" + idToSearchRecord + "'";
@@ -182,7 +199,7 @@ class Framework
 		}
 	}
 
-	public boolean checkIdPresentOrNot(String id) throws SQLException
+	private boolean checkIdPresentOrNot(String id) throws SQLException
 	{
 		boolean isIdPresent = false;
 		query = "Select " + fieldNames[0] + " from MyTable where Status = 'A' and " + fieldNames[0] + " = '" + id + "'";
@@ -194,7 +211,7 @@ class Framework
 		return isIdPresent;
 	}
 
-	public void printRecord(ResultSet resultSet) throws SQLException
+	private void printRecord(ResultSet resultSet) throws SQLException
 	{
 		for (int index = 0; index < fieldNames.length; index++)
 			{
@@ -202,14 +219,14 @@ class Framework
 			}
 	}
 
-	public String getInput(String fieldName)
+	private String getInput(String fieldName)
 	{
 		System.out.print("Enter " + fieldName + ": ");
 		String input = scanner.nextLine();
 		return input;
 	}
 
-	public String[] getConfigData(String columnName) throws SQLException
+	private String[] getConfigData(String columnName) throws SQLException
 	{
 		query = "select DataInFile from Config where FileName = '" + columnName + "'";
 		resultSet = statement.executeQuery(query);
@@ -221,7 +238,7 @@ class Framework
 		return columnData.split(", ");
 	}
 
-	public void storeFieldNames() throws SQLException
+	private void storeFieldNames() throws SQLException
 	{
 		query = "select * from MyTable";
 		resultSet = statement.executeQuery(query);

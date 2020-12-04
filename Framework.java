@@ -151,7 +151,7 @@ class Framework
 					System.out.println("Error while updating " + columnName);
 				}
 			}
-			catch (Exception e)
+			catch (Exception objException)
 			{
 				System.out.println("Enter valid update choice");
 			}

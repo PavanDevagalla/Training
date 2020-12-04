@@ -18,6 +18,7 @@ class Framework
 	static String[] fieldNames;
 	static String[] updatableFieldPositons;
 	static String[] promptMessages;
+	int rowsAffected;
 	public static void main(String args[]) 
 	{
 		Framework objFramework = new Framework();
@@ -38,6 +39,7 @@ class Framework
 				}
 				System.out.print("Enter your choice: ");
 				String userChoice = objFramework.scanner.next();
+				objFramework.scanner.nextLine();
 				switch (userChoice)
 				{
 					case "1": objFramework.insertRecord();
@@ -64,9 +66,9 @@ class Framework
 				System.out.println("---------------------------------");
 			}
 		}
-		catch (SQLException objException)
+		catch (SQLException e)
 		{
-			System.out.println(objException.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -78,8 +80,15 @@ class Framework
 			query += "'" + getInput(fieldNames[index]) + "', ";
 		}
 		query += "'A')";
-		statement.executeUpdate(query);	
-		System.out.println(promptMessages[0]);
+		rowsAffected = statement.executeUpdate(query);
+		if(rowsAffected == 1)
+		{
+			System.out.println(promptMessages[0]);
+		}
+		else
+		{
+			System.out.println("Error while adding details");
+		}	
 	}
 
 	public void readRecords() throws SQLException
@@ -111,10 +120,11 @@ class Framework
 			try
 			{
 				int updateChoice = scanner.nextInt();
+				scanner.nextLine();
 				String columnName = fieldNames[Integer.parseInt(updatableFieldPositons[updateChoice - 1])];
 				String fieldValue = getInput(columnName);
 				query = "update MyTable set " + columnName + " = '" + fieldValue + "' where AccountNumber = '" + idToUpdateRecord + "'";
-				int rowsAffected = statement.executeUpdate(query);
+				rowsAffected = statement.executeUpdate(query);
 				if (rowsAffected == 1)
 				{
 					System.out.println(columnName + " updated successfully");
@@ -124,7 +134,7 @@ class Framework
 					System.out.println("Error while updating " + columnName);
 				}
 			}
-			catch (Exception objException)
+			catch (Exception e)
 			{
 				System.out.println("Enter valid update choice");
 			}
@@ -138,11 +148,18 @@ class Framework
 	public void deleteRecord() throws SQLException
 	{
 		String idToDeleteRecord = getInput(fieldNames[0]);
-		query = "update MyTable set Status = 'D' where Status = 'A' and AccountNumber = '" + idToDeleteRecord + "'";
-		int rowsAffected = statement.executeUpdate(query);
-		if (rowsAffected == 1)
+		if(checkIdPresentOrNot(idToDeleteRecord))
 		{
-			System.out.println(promptMessages[2]);
+			query = "update MyTable set Status = 'D' where AccountNumber = '" + idToDeleteRecord + "'";
+			rowsAffected = statement.executeUpdate(query);
+			if (rowsAffected == 1)
+			{
+				System.out.println(promptMessages[2]);
+			}
+			else
+			{
+				System.out.println("Error while deleting, please try again");
+			}
 		}
 		else
 		{
@@ -188,7 +205,7 @@ class Framework
 	public String getInput(String fieldName)
 	{
 		System.out.print("Enter " + fieldName + ": ");
-		String input = scanner.next();
+		String input = scanner.nextLine();
 		return input;
 	}
 

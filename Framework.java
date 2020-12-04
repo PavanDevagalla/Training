@@ -76,6 +76,7 @@ class Framework
 							if (exitChoice.toLowerCase().equals("y"))
 							{
 								System.out.println("Entered exit as choice");
+								scanner.close();
 								connection.close();
 								System.exit(0);
 							}
@@ -151,7 +152,7 @@ class Framework
 					System.out.println("Error while updating " + columnName);
 				}
 			}
-			catch (Exception objException)
+			catch (Exception e)
 			{
 				System.out.println("Enter valid update choice");
 			}
@@ -219,9 +220,9 @@ class Framework
 			}
 	}
 
-	private String getInput(String fieldName)
+	private String getInput(String inputPrompt)
 	{
-		System.out.print("Enter " + fieldName + ": ");
+		System.out.print("Enter " + inputPrompt + ": ");
 		String input = scanner.nextLine();
 		return input;
 	}

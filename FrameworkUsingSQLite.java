@@ -39,8 +39,8 @@ class Framework
 
 	public Framework() throws Exception
 	{
-		String url = "jdbc:sqlite:D:/Training/JAVA/framework.db";
 		Class.forName("org.sqlite.JDBC");
+		String url = "jdbc:sqlite:D:/Training/JAVA/framework.db";
 		connection = DriverManager.getConnection(url);
 		statement = connection.createStatement();
 		updatableFieldPositons = getConfigData("UpdatableFieldPositions");
@@ -142,7 +142,7 @@ class Framework
 				scanner.nextLine();
 				String columnName = fieldNames[Integer.parseInt(updatableFieldPositons[updateChoice - 1])];
 				String fieldValue = getInput(columnName);
-				query = "update MyTable set " + columnName + " = '" + fieldValue + "' where AccountNumber = '" + idToUpdateRecord + "'";
+				query = "update MyTable set " + columnName + " = '" + fieldValue + "' where " + fieldNames[0] + " = '" + idToUpdateRecord + "'";
 				rowsAffected = statement.executeUpdate(query);
 				if (rowsAffected == 1)
 				{
@@ -169,7 +169,7 @@ class Framework
 		String idToDeleteRecord = getInput(fieldNames[0]);
 		if(checkIdPresentOrNot(idToDeleteRecord))
 		{
-			query = "update MyTable set Status = 'D' where AccountNumber = '" + idToDeleteRecord + "'";
+			query = "update MyTable set Status = 'D' where " + fieldNames[0] + " = '" + idToDeleteRecord + "'";
 			rowsAffected = statement.executeUpdate(query);
 			if (rowsAffected == 1)
 			{

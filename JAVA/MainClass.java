@@ -24,7 +24,7 @@ class MainClass
 		}
 		catch (Exception objException)
 		{
-			objException.printStackTrace();
+			System.out.println(objException.getMessage());
 		}
 	}
 }

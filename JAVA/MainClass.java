@@ -12,7 +12,7 @@ class MainClass
 			String className = "";
 			if (args.length == 0)
 			{
-				System.out.print("Enter class name: ");
+				System.out.print("Enter database name: ");
 				className = scanner.next();
 			}
 			else
@@ -24,7 +24,7 @@ class MainClass
 		}
 		catch (Exception objException)
 		{
-			System.out.println("Invalid class name");
+			objException.printStackTrace();
 		}
 	}
 }

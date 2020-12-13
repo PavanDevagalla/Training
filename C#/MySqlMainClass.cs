@@ -55,8 +55,7 @@ class MySqlMain
 		Console.WriteLine("Number of record(s): " + CountOfRecords);
 		Reader.Close();
 	}
-
-	// Reads the records from DataTable
+	
 	// public static void ReadRecords()
 	// {
 	// 	String Query = "Select * from MyTable where Status = 'A'";

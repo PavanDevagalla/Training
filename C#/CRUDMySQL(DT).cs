@@ -29,7 +29,7 @@ namespace MySQLLibUsingDT
 
 		public int InsertRecord(string Query)
 		{
-			Command = new MySqlCommand(query, Connection);
+			Command = new MySqlCommand(Query, Connection);
 			int RowsAffected = Command.ExecuteNonQuery();
 			return RowsAffected;
 		}

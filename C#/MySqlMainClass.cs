@@ -11,7 +11,7 @@ class MySqlMain
 	static CRUDMySQL ObjCRUD;
 	public static void Main(String[] args)
 	{
-		ObjCRUD = new CRUDMySQL();
+		ObjCRUD = new CRUDMySQL("Server = 165.22.14.77; Database = dbPavan; User Id = Pavankumar; Password = Pavankumar");
 		FieldNames = ObjCRUD.GetFieldNames();
 		InsertRecord();
 		Console.WriteLine("------------------------");
